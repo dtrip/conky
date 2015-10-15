@@ -1,0 +1,91 @@
+# Dtrip .conkyrc junk 
+use_xft yes
+xftfont panton:size=14
+xftalpha 0
+update_interval 1
+total_run_times 0
+
+
+background 000000
+maximum_width 400
+minimum_size 400 300
+alignment top_left
+
+# short_units yes
+# show_graph_scale yes
+# show_graph_range yes
+
+# minimum_size_280
+gap_x 60
+gap_y 100
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour cccccc
+own_window_argb_visual yes
+own_window_argb_value 200
+
+double_buffer yes
+draw_shades no
+
+draw_borders no
+draw_graph_borders no
+stippled_borders yes
+
+border_inner_margin 25
+
+#colors
+
+#graph fill color
+#color1 f0e0ad
+color1 ffffff
+color2 d7ff00
+color3 00ff00
+
+text_buffer_size 512
+
+lua_load ~/conky/ringsv121.lua
+lua_draw_hook_pre ring_stats
+# lua_load ~/conky/bg.lua
+# lua_draw_hook_pre draw_bg
+
+
+
+TEXT
+${font panton:size=14,weight:normal}${color3}${nodename} ${hr}
+${color1}${alignr}$sysname $kernel
+${voffset 20}${alignr}${cpugraph 20,320 324D23 ffffff 100 -t -l}
+${voffset -23}${goto 110}${font panton:size=12,weight:normal}${cpu cpu0}%${goto 0}
+${voffset -1}${alignr}${memgraph 20,320 324D23 ffffff}
+${voffset -20}${goto 110}${font panton:size=12,weight:normal}$memperc%
+${voffset -3}${font panton:size=12,weight:normal}${goto 110}${fs_used_perc /}%${goto 0}
+${voffset -7}${font panton:size=10,weight:normal}${goto 110}${battery BAT0}${font panton:size=12,weight:normal}
+
+
+${voffset 48}${downspeedgraph mlan0 15,305 324D23 fffff 100 -l}
+${voffset -25}${goto 270}${downspeed mlan0}
+${voffset 3}${upspeedgraph mlan0 12,305 4B1B0C ffffff 100 -l}
+${voffset -25}${goto 270}${upspeed mlan0}${font panton:size=14,weight:normal}
+
+${color3}Local   : ${color1}${goto 140}${addr mlan0}
+${color3}Gateway : ${color1}${goto 140}${gw_ip}
+${color3}Public  : ${color1}${goto 140}${execi 120 wget c.nrx.co -O - -q}
+
+
+${voffset 40}${color3}CPU${hr}
+${voffset -30}${alignr}${cpu cpu0}%${color1}
+${voffset 10}${top name 1}${alignr}${top cpu 1}%
+${top name 2}${alignr}${top cpu 2}%
+${top name 3}${alignr}${top cpu 3}%
+${top name 4}${alignr}${top cpu 4}%
+
+${color3}RAM${hr}
+${voffset -30}${alignr} $mem/$memmax - $memperc%${color1}
+${voffset 10}${top_mem name 1}${alignr}${top_mem mem 1}%
+${top_mem name 2}${alignr}${top_mem mem 2}%
+${top_mem name 3}${alignr}${top_mem mem 3}%
+${top_mem name 4}${alignr}${top_mem mem 4}%
+
+${color3}DISK${hr}${color white}
+Free: ${fs_free /}${alignr}Used: ${fs_used /}

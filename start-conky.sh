@@ -11,7 +11,7 @@ DIR=$(dirname $(readlink -e $0))
 sleep 1 #time (in s) for the DE to start; use ~20 for Gnome or KDE, less for Xfce/LXDE etc
 # conky -c $DIR/rings & # the main conky with rings
 
-conky -c ~/.conkyrc
+conky -c ~/conky/.conkyrc
 
 
 # conky -c $DIR/conkyrc1
