@@ -1,0 +1,72 @@
+# Dtrip .conkyrc junk 
+use_xft yes
+xftfont trench:size=16
+xftalpha 0.1
+update_interval 1
+total_run_times 0
+
+minimum_size 400 400
+maximum_width 400
+alignment top_left
+
+gap_x 30
+gap_y 40
+# short_units yes
+# show_graph_scale yes
+# show_graph_range yes
+
+# minimum_size 500
+# maximum_size 500
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+own_window_argb_visual yes
+own_window_argb_value 0
+
+double_buffer yes
+draw_shades no
+
+draw_borders no
+draw_graph_borders no
+stippled_borders NO
+
+border_inner_margin 15
+
+#colors
+
+#graph fill color
+#color1 f0e0ad
+color1 ffffff
+color2 d7ff00
+color3 00ff00
+
+text_buffer_size 512
+
+lua_load ~/conky/rings-2-v1.2.1.lua
+lua_draw_hook_pre ring_stats
+
+net_avg_samples 1
+cpu_avg_samples 1
+
+TEXT
+${color lightgrey}${uid_name ${user_number}}@${nodename} ${hr 2}
+${color1}${alignr}$sysname $kernel
+
+# ${color3}CPU${color1}${alignr}${cpu cpu0}%
+#${tail /var/log/syslog 20 2}
+# ${cpubar cpu0 5,400}
+# ${voffset -35}${offset 150}CPU ${cpu cpu0}
+${voffset 10}${alignr}${cpugraph 20,310 535353 666666 100 -t -l}
+${voffset -22}${goto 110}${font trench:size=14}CPU ${cpu cpu0}%${goto 0}
+${voffset -12}${alignr}${memgraph 20,310 535353 666666}
+${voffset -29}${goto 110}${font trench:size=13}RAM $mem/$memmax - $memperc%
+${voffset 4}${font trench:size=12}${goto 110}SSD ${fs_used /}:${fs_free /}${goto 0}
+${goto 110}Battery ${battery BAT0}${font trench:size=16}
+
+
+${voffset 45}${downspeed mlan0}${goto 0}${downspeedgraph mlan0 15,335 324D23 fffff 100 -l}
+${voffset -3}${upspeed mlan0}${goto 0}${upspeedgraph mlan0 12,335 4B1B0C ffffff 100 -l}
+
+${voffset 100}

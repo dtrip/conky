@@ -1,0 +1,126 @@
+# temps pour fermer conky en seconde. 0 = toujours actif 
+total_run_times 0
+
+# affiche le texte sur la sortie standard
+out_to_console no
+
+# réglage de la mémoire, pour éviter le clignotement
+double_buffer yes
+# Soustraire les mémoires tampons de la mémoire utiliser
+no_buffers yes
+text_buffer_size 1024
+
+# taux de rafraichissement de la fenêtre (en secondes)
+update_interval 1
+
+# nombre d'échantillons à utiliser pour calculer la moyenne d'utilisation
+cpu_avg_samples 4
+net_avg_samples 2
+
+# taille et positon - largeur/hauteur
+alignment top_left
+minimum_size 400 200
+maximum_width 400
+
+# écart avec le bord x=gauche ou droit y= haut ou bas
+gap_x 415
+gap_y 30
+
+draw_graph_borders no
+# afficher les ombres
+draw_shades no
+# afficher des contours
+draw_outline no
+# contours autour des blocs de texte
+draw_borders no
+# largeur du contour
+border_width 0
+# largeur des marges
+border_margin 0
+
+#pour que conky tourne en arrière plan background no pour les tests
+background yes
+
+# utiliser sa propre fenêtre
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+own_window_argb_visual yes
+own_window_argb_value 0
+
+
+# Utiliser Xft (polices lissées etc)
+use_xft yes
+xftalpha .1
+override_utf8_locale yes # force UTF8
+
+#police a utiliser : use_xft doit être a "yes"
+# xftfont Source\ Code\ Pro\ ExtraLight:size=12 #OCR A Std:size=6
+xftfont Panton:size=12 #OCR A Std:size=6
+# Tout le texte en majuscule
+uppercase no
+
+# Taille des pointillés
+stippled_borders 0
+
+# Ajoute des espaces après certains objets pour éviter de les faire bouger.
+# Fonctionne uniquement avec les polices Fixes
+use_spacer yes
+
+# Couleurs
+default_color FFFFFF #blanc
+default_shade_color 333333
+default_outline_color black
+
+color3 ed6c06  #rouge
+color2 66FF00 #vert
+color1 FFFFFF
+
+${color1}XPCox : ${color1}${exec /home/math/Script/VM | grep "%"} OQP - ${color3}${exec /home/math/Script/VM | grep "Mo"} ${color2}libre
+
+TEXT
+${font Panton : pixelize=16}${color1}Files_System_sda${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}/root : Busy ${color2}${fs_used_perc /}% ${color1}- Free ${color3}${fs_free /}
+
+${font Panton : pixelize=16}${color1}Files_System_USB${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Crk  : ${if_mounted /media/dtrip/crk}Used ${color2}${fs_used_perc /media/dtrip/crk}% ${color1}- Free ${color3}${fs_free /media/dtrip/crk}${else}Disconnected${endif}
+
+${font Panton : pixelize=16}${color1}Disk_Activity${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}sda2_activity
+${offset 15}Read : ${color2}${diskio_read sda2}${goto 222}${color1}Write : ${color2}${diskio_write sda2}
+${offset 15}${color1}${diskiograph_read sda2 25,180 176e88 66FF00}${alignr}${diskiograph_write sda2 25,180 176e88 66FF00}
+${offset 15}sda3_activity
+${offset 15}Read : ${color2}${diskio_read sda3}${goto 222}${color1}Write : ${color2}${diskio_write sda3}
+${offset 15}${color1}${diskiograph_read sda3 25,180 176e88 66FF00}${alignr}${diskiograph_write sda3 25,180 176e88 66FF00}
+
+
+${if_existing /proc/net/route mlan0}${font Panton : pixelize=16}${color1}Network${alignc}${color3}${wireless_link_qual mlan0}%${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Interface : ${color2}${gw_iface}${color1}${alignr}${wireless_essid mlan0}
+${offset 15}${color1}Local   : ${alignr}${color2}${addr mlan0}
+${offset 15}${color1}Gateway : ${alignr}${color1}${gw_ip}
+${offset 15}${color1}Public  : ${alignr}${color2}${execi 120 wget c.nrx.co -O - -q}${else}${font Panton : pixelize=16}${color1}Network${font}
+${color3}${voffset -5}${hr}
+
+${color1}${alignc}** Aucune connexion disponible **
+
+${endif}
+
+${font Panton : pixelize=16}${color1}Transfers${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Upload : ${color1}${upspeed mlan0}ko/s${alignr}${totalup mlan0}
+${offset 15}${color1}${upspeedgraph mlan0 25,385 176e88 66FF00}
+${offset 15}Download : ${color1}${downspeed mlan0}ko/s${alignr}${totaldown mlan0}
+${offset 15}${color1}${downspeedgraph mlan0 25,385 176e88 66FF00}$
+
+${font Panton : pixelize=16}${color1}Calendar${alignr}Local_Hour${font}
+${color3}${voffset -5}${hr}
+${color2}${font Panton:pixelize=16}${offset 62}${execi 1800 date +%^B | cut -c1}${execi 1800 date +%B | cut -c2-} ${time (%m)}
+${color1}${execpi 60 DJS=`date +%_d`; cal | sed '/./!d' | sed '1d'  | sed 's/$/                     /' | fold -w 21 | sed -n '/^.\{21\}/p' | sed 's/^/  /' | sed /" $DJS "/s/" $DJS "/" "'${color2}'"$DJS"'${color3}'" "/}
+${font Panton:size=25}${color1}${offset 215}${voffset -80}${time %H}${color2}${offset 1}${voffset -15}${font Panton:size=9}${time :%M:%S}
+${offset 260}${color3}Hourss

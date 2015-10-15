@@ -1,0 +1,60 @@
+# Dtrip .conkyrc junk 
+use_xft yes
+xftfont terminus:size=8
+xftalpha 0.1
+update_interval 1
+background yes
+total_run_times 0
+xftalpha 0.3
+
+maximum_width 1300
+alignment top_left
+
+gap_x 40
+gap_y 750
+
+# short_units yes
+# show_graph_scale yes
+# show_graph_range yes
+
+# minimum_size_280
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+own_window_argb_visual yes
+own_window_argb_value 59
+
+double_buffer yes
+draw_shades no
+
+draw_borders no
+draw_graph_borders no
+# stippled_borders yes
+
+# border_inner_margin 15
+
+#colors
+
+#graph fill color
+#color1 f0e0ad
+# color1 gray
+# color2 d7ff00
+# color3 00ff00
+
+default_color 333333
+color0 e0e0e0
+color1 333333
+color2 1994D1
+color3 FF0000
+color4 918787
+
+
+
+text_buffer_size 5120
+
+TEXT
+# ${color3}Log${hr}
+$color0
+${execi 1 tail -n 20 /var/log/syslog | fold -w 150 }

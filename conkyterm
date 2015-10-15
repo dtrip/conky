@@ -1,0 +1,143 @@
+# temps pour fermer conky en seconde. 0 = toujours actif 
+total_run_times 0
+
+# affiche le texte sur la sortie standard
+out_to_console no
+
+# réglage de la mémoire, pour éviter le clignotement
+double_buffer yes
+# Soustraire les mémoires tampons de la mémoire utiliser
+no_buffers yes
+text_buffer_size 1024
+
+# taux de rafraichissement de la fenêtre (en secondes)
+update_interval 1
+
+# nombre d'échantillons à utiliser pour calculer la moyenne d'utilisation
+cpu_avg_samples 1
+net_avg_samples 2
+
+# taille et positon - largeur/hauteur
+alignment top_left
+minimum_size 635 10
+maximum_width 635
+
+# écart avec le bord x=gauche ou droit y= haut ou bas
+gap_x 790
+gap_y 30
+
+# afficher les ombres
+draw_shades no
+# afficher des contours
+draw_outline no
+# contours autour des blocs de texte
+draw_borders no
+# largeur du contour
+border_width 1
+# largeur des marges
+border_margin 1
+
+#pour que conky tourne en arrière plan background no pour les tests
+background yes
+
+# utiliser sa propre fenêtre
+own_window yes
+#type de fenêtre : normal(avec le cadre) / override / desktop
+own_window_type override # normal / override / desktop
+#pseudo transparence si vous avez des icones sous le conky elle ne seront plus accessible une fois conky activé
+own_window_transparent yes
+
+# Utiliser Xft (polices lissées etc)
+use_xft yes
+xftalpha .1
+
+override_utf8_locale yes # force UTF8
+
+#police a utiliser : use_xft doit être a "yes"
+xftfont saxMono:size=9 #OCR A Std:size=6
+# Tout le texte en majuscule
+uppercase no
+
+# Ajoute des espaces après certains objets pour éviter de les faire bouger.
+# Fonctionne uniquement avec les polices Fixes
+use_spacer yes
+
+# Couleurs
+default_color FFFFFF #blanc
+default_shade_color 333333
+default_outline_color black
+
+color3 cf1c00 #rouge
+color2 66FF00 #vert
+color1 176e88 #bleu
+
+####### FLUX RSS - IUFM ###############################
+${font Visitor TT1 BRK : pixelsize=12}${color1}IUFM_Flux_RSS${font}
+${color3}${voffset -5}${hr}
+${if_existing /proc/net/route wlan0}${color1}${rss http://www.dijon.iufm.fr/spip.php?page=backend 1 item_titles 8}${else}
+
+
+${color1}${alignc}** Flux RSS indisponible **
+
+
+${endif}
+########################################################
+TEXT
+${font Visitor TT1 BRK : pixelsize=12}${color1}Shell${font}
+${color3}${voffset -5}${hr}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+${voffset 8}
+${font Visitor TT1 BRK : pixelsize=12}${color1}Todo_List${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color2}${exec cat ~/Ubuntu/ToDo/TDL/1.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/TDL/2.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/TDL/3.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/TDL/4.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/TDL/5.txt | grep todo | cut -d "=" -f2}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Agenda${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color2}${exec cat ~/Ubuntu/ToDo/Agenda/1.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/Agenda/2.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/Agenda/3.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/Agenda/4.txt | grep todo | cut -d "=" -f2}
+${offset 15}${exec cat ~/Ubuntu/ToDo/Agenda/5.txt | grep todo | cut -d "=" -f2}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Divia_RSS${font}
+${color3}${voffset -5}${hr}
+${if_existing /proc/net/route wlan0}${color1}${rss http://www.divia.fr/module/flux_rss.php 1 item_titles 5}${else}${color1}${alignc}** Flux RSS indisponible **${endif}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Fortune_Quote${font}
+${color3}${voffset -5}${hr}
+${color2}Linux : ${color1}${execi 600 fortune fortunes}
+
+${color2}Geek : ${color1}${execi 600 fortune informatique}

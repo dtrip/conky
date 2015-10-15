@@ -1,0 +1,118 @@
+# Dtrip .conkyrc junk 
+use_xft yes
+xftfont xirod:size=12
+xftalpha 0.1
+update_interval 0.5
+total_run_times 0
+
+
+maximum_width 400
+alignment top_left
+
+# short_units yes
+# show_graph_scale yes
+# show_graph_range yes
+
+# minimum_size_280
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+own_window_argb_visual yes
+own_window_argb_value 0
+
+double_buffer yes
+draw_shades no
+
+draw_borders no
+draw_graph_borders no
+stippled_borders yes
+
+border_inner_margin 15
+
+#colors
+
+#graph fill color
+#color1 f0e0ad
+color1 ffffff
+color2 d7ff00
+color3 00ff00
+
+text_buffer_size 512
+
+
+lua_load ~/conky/rings-v1.2.1.lua
+lua_draw_hook_pre ring_stats
+
+
+
+TEXT
+
+${offset 15}${font terminus:size=14,weight:bold}${color lightgrey}${uid_name ${user_number}}@${nodename} ${hr 2}
+
+${color1}${alignr}${offset 15}${font Terminus:size=10,weight:normal}$sysname $kernel
+#${offset 15}${font Terminus:size=10,weight:normal}$nodename
+#${offset 15}${font Terminus:size=10,weight:normal}Uptime: $uptime
+
+
+
+${font terminus:bold:size=8}${voffset 32}${goto 96}${color4}CPU ${alignr 145}${color1}${cpu}% / ${color1}${acpitemp}°C
+${font terminus:bold:size=8}${goto 79}${color4}RAM ${alignr 145}${color1}${memperc}% / ${color1}${memmax}
+${font terminus:bold:size=8}${goto 63}${color4}SWAP${alignr 145}${color1}${swapperc}% / ${color1}${swapmax}
+${color4}${font terminus:bold:size=6}${goto 48}Uptime${color1}${alignr 145}${uptime_short}
+${color4}${font terminus:bold:size=6}${goto 29}${color4}Processes:${color1}${alignr 145}${processes} / ${running_processes}
+${color4}${font terminus:bold:size=6}${goto 19}${pre_exec cat /etc/issue.net}${color1}${alignr 145}${machine}
+${font Xirod:size=10}${color0}${voffset 3}${offset 3}SYSTEM INFO
+${font Xirod:size=8}${color0}${voffset 91}${goto 178}INTERNET INFO
+${font terminus:bold:size=6}${goto 146}${voffset -3}${color4}Down${goto 205}${color1}${totaldown wlan0} / ${color1}${downspeed wlan0}
+${color4}${font terminus:bold:size=6}${goto 146}Up${goto 195}${color1}${totalup wlan0} / ${color1}${upspeed wlan0}
+${color4}${font terminus:bold:size=6}${goto 146}WiFi${goto 185}${color1}${wireless_essid wlan0}
+#
+
+${offset 15}${font Ubuntu:size=9,weight:bold}${color3}Battery${alignr}${battery BAT0}
+${offset 15}${color f0e0ad}${battery_bar 6,385 BAT0}${color white}
+
+${offset 15}${color3}CPU${hr}${color1}${alignr}${cpu cpu0}%
+#${tail /var/log/syslog 20 2}
+${offset 15}${cpubar cpu0 5,385}
+${offset 15}${cpugraph 20,385 324D23 f0e0ad 100 -t -l}
+${offset 15}${top name 1}${alignr}${top cpu 1}%
+${offset 15}${top name 2}${alignr}${top cpu 2}%
+${offset 15}${top name 3}${alignr}${top cpu 3}%
+${offset 15}${top name 4}${alignr}${top cpu 4}%
+
+
+${offset 15}${color3}RAM${alignr}$color $mem/$memmax - $memperc%
+${offset 15}${membar 6,385}
+${offset 15}${memgraph 15,385 324D23 f0e0ad}
+${voffset 10}${offset 15}${top_mem name 1}${alignr}${top_mem mem 1}%
+${offset 15}${top_mem name 2}${alignr}${top_mem mem 2}%
+${offset 15}${top_mem name 3}${alignr}${top_mem mem 3}%
+${offset 15}${top_mem name 4}${alignr}${top_mem mem 4}%
+
+${offset 15}${color3}DISK${color white}
+${offset 15}${fs_bar 5,385}
+${offset 15}${font Ubuntu:size=9,weight:bold}Free: ${font Ubuntu:size=9,weight:normal}${fs_free /}${alignr}${font Ubuntu:size=9,weight:bold}Used: ${font Ubuntu:size=9,weight:normal}${fs_used /}
+${if_up mlan0}
+    ${color3}Network${alignr}${if_up tun0}${color red}VPN Connected${endif}${color white}
+
+    ${font Ubuntu:size=9,weight:bold}Up: ${alignr}${font Ubuntu:size=9,weight:normal}${upspeed mlan0} / ${totalup mlan0}
+    ${upspeedgraph mlan0 15,385 4B1B0C f0e0ad 100 -l}
+    ${voffset 10}${if_up tun0}${font Ubuntu:size=9,weight:bold}tun0 Down: ${alignr}${font Ubuntu:size=9,weight:normal}${downspeed tun0} / ${totaldown tun0}
+    ${downspeedgraph tun0 15,385 324D23 f0e0ad 100 -l}${endif}
+    ${voffset 10}${font Ubuntu:size=9,weight:bold}mlan0 Down: ${alignr}${font Ubuntu:size=9,weight:normal}${downspeed mlan0} / ${totaldown mlan0}
+    ${downspeedgraph mlan0 15,385 324D23 f0e0ad 100 -l}
+    ${if_up eth0}${voffset 10}${font Ubuntu:size=9,weight:bold}eth0 Down: ${alignr}${font Ubuntu:size=9,weight:normal}${downspeed eth0} / ${totaldown eth0}
+    ${downspeedgraph eth0 15,385 324D23 f0e0ad 100 -l}${endif}
+${endif}
+${offset 15}${color3}Syslog${hr}
+$color1
+# ${offset 15}${execbar tail /var/log/syslog}
+# ${offset 15}${execpi 10 tail -n5 /var/log/syslog | fold -w50}
+# ${offset 15}${tail /var/log/syslog 5 2}
+${offset 15}${execpi 5 tail -n 5 /var/log/syslog | fold -w 70 | sed ':a;N;$!ba;s/\n/\n${offset 15}/g'}
+${voffset 5}${offset 15}${color3}Dmesg${hr}
+${offset 15}${color1}${execpi 5 tail -n 5 /var/log/dmesg | fold -w 70 | sed ':a;N;$!ba;s/\n/\n${offset 15}/g'}
+
+#${offset 15}${mixer}

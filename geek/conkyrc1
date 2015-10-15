@@ -1,0 +1,137 @@
+# temps pour fermer conky en seconde. 0 = toujours actif 
+total_run_times 0
+
+# affiche le texte sur la sortie standard
+out_to_console no
+
+# réglage de la mémoire, pour éviter le clignotement
+double_buffer yes
+# Soustraire les mémoires tampons de la mémoire utiliser
+no_buffers yes
+text_buffer_size 1024
+
+# taux de rafraichissement de la fenêtre (en secondes)
+update_interval 1
+
+# nombre d'échantillons à utiliser pour calculer la moyenne d'utilisation
+cpu_avg_samples 1
+net_avg_samples 2
+
+# taille et positon - largeur/hauteur
+alignment top_left
+minimum_size 300 500
+maximum_width 300
+
+# écart avec le bord x=gauche ou droit y= haut ou bas
+gap_x 10
+gap_y 30
+
+# afficher les ombres
+draw_shades no
+# afficher des contours
+draw_outline no
+# contours autour des blocs de texte
+draw_borders no
+# largeur du contour
+border_width 1
+# largeur des marges
+border_margin 1
+
+#pour que conky tourne en arrière plan background no pour les tests
+background yes
+
+# utiliser sa propre fenêtre
+own_window yes
+#type de fenêtre : normal(avec le cadre) / override / desktop
+own_window_type override # normal / override / desktop
+#pseudo transparence si vous avez des icones sous le conky elle ne seront plus accessible une fois conky activé
+own_window_transparent yes
+
+# Utiliser Xft (polices lissées etc)
+use_xft yes
+xftalpha .1
+override_utf8_locale yes # force UTF8
+
+#police a utiliser : use_xft doit être a "yes"
+xftfont saxMono:size=9 #OCR A Std:size=6
+# Tout le texte en majuscule
+uppercase no
+
+# Ajoute des espaces après certains objets pour éviter de les faire bouger.
+# Fonctionne uniquement avec les polices Fixes
+use_spacer yes
+
+# Taille des pointillés
+stippled_borders 5
+
+# Couleurs
+default_color FFFFFF #blanc
+default_shade_color 333333
+default_outline_color black
+
+color3 cf1c00 #rouge
+color2 66FF00 #vert
+color1 176e88 #bleu
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}${alignc}${exec cat /etc/lsb-release | grep "NAME" | cut -d "=" -f2} Inside${font}
+
+TEXT
+${font Visitor TT1 BRK : pixelsize=12}${color1}Time${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Time : ${color3}${time %H : %M : %S}
+${offset 15}${color1}Date : ${time %A %d %B %Y}
+${offset 15}Week : ${color2}${time %V} ${color1}out of 53
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}System${alignr}${exec cat /etc/lsb-release | grep "DES" | cut -d "=" -f2 | sed 's/"//g' | sed 's/ /_/g'}${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Uptime  : ${color3}${uptime}
+${offset 15}${color1}Kernel  : ${sysname} ${color2}${kernel}
+${offset 15}${color1}Machine : ${nodename} ${machine}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Temperatures${alignr}Scan${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}HDrive : ${color3}${exec hddtemp -n /dev/sda5}°C${alignr}${color1}Open ports : ${color3}${tcp_portmon 1 65535 count}
+${offset 15}${color1}Core 1 : ${color2}${platform coretemp.0 temp 1}°C${alignr}${color1}Incoming :  ${tcp_portmon 1 32767 count}
+${offset 15}${color1}Core 2 : ${color2}${platform coretemp.1 temp 1}°C${alignr}${color1}Outgoing : ${tcp_portmon 32768 65535 count}
+
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}CPU_Activity${color3}${alignc}${cpu cpu}%${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Core 1 : ${freq_g 1} GHz - ${color3}${cpu cpu1}% ${color1}${cpubar cpu1}
+${offset 15}${cpugraph cpu1 25,285 176e88 66FF00}
+${offset 15}Core 2 : ${freq_g 2} GHz - ${color3}${cpu cpu2}% ${color1}${cpubar cpu2}
+${offset 15}${cpugraph cpu2 25,285 176e88 66FF00}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Memory_Activity${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}RAM : $mem / $memmax -  ${color3}$memperc% ${color1}${membar}
+${offset 15}SW : $swap / $swapmax  -  ${color3}$swapperc% ${color1}${swapbar}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Disk_Activity${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}sda5 activity /root
+${offset 30}Read : ${color2}${diskio_read sda5}${goto 172}${color1}Write : ${color2}${diskio_write sda5}
+${offset 30}${color1}${diskiograph_read sda5 25,130 176e88 66FF00}${alignr}${diskiograph_write sda5 25,130 176e88 66FF00}
+${offset 15}sda6 activity /home
+${offset 30}Read : ${color2}${diskio_read sda6}${goto 172}${color1}Write : ${color2}${diskio_write sda6}
+${offset 30}${color1}${diskiograph_read sda6 25,130 176e88 66FF00}${alignr}${diskiograph_write sda6 25,130 176e88 66FF00}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Processes${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color1}Processes : ${processes} ${alignr}Running : ${color2}$running_processes
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Top_CPU${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color2}${top name 1}${color3}${goto 150}${top cpu 1}%${alignr}${color1}${top pid 1}
+${offset 15}${color2}${top name 2}${color3}${goto 150}${top cpu 2}%${alignr}${color1}${top pid 2}
+${offset 15}${color2}${top name 3}${color3}${goto 150}${top cpu 3}%${alignr}${color1}${top pid 3}
+${offset 15}${color2}${top name 4}${color3}${goto 150}${top cpu 4}%${alignr}${color1}${top pid 4}
+${offset 15}${color2}${top name 5}${color3}${goto 150}${top cpu 5}%${alignr}${color1}${top pid 5}
+
+${font Visitor TT1 BRK : pixelsize=12}${color1}Top_RAM${font}
+${color3}${voffset -5}${hr}
+${offset 15}${color2}${top_mem name 1}${color3}${goto 150}${top_mem mem 1}%${alignr}${color1}${top_mem pid 1}
+${offset 15}${color2}${top_mem name 2}${color3}${goto 150}${top_mem mem 2}%${alignr}${color1}${top_mem pid 2}
+${offset 15}${color2}${top_mem name 3}${color3}${goto 150}${top_mem mem 3}%${alignr}${color1}${top_mem pid 3}
+${offset 15}${color2}${top_mem name 4}${color3}${goto 150}${top_mem mem 4}%${alignr}${color1}${top_mem pid 4}
+${offset 15}${color2}${top_mem name 5}${color3}${goto 150}${top_mem mem 5}%${alignr}${color1}${top_mem pid 5}

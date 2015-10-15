@@ -1,0 +1,79 @@
+#==============================================================================
+#                            conkyrc_HUD
+#
+#  author  : JetSex
+#  version : v2015052a
+#  license : Distributed under the terms of GNU GPL version 2 or later
+#
+#==============================================================================
+
+background no
+update_interval 3.5
+
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit celsius
+
+double_buffer yes
+no_buffers yes
+text_buffer_size 1024
+
+gap_x 0
+gap_y 0
+# minimum_size 1056 230
+maximum_width 100
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below 
+own_window_argb_visual 1
+border_inner_margin 0
+border_outer_margin 0
+alignment top_left
+
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+override_utf8_locale yes
+use_xft yes
+xftfont caviar dreams:size=12
+xftalpha 1
+uppercase no
+
+default_color 91FF98
+color1 000000
+
+lua_load ~/conky/foreconky/.conky/Hud0.lua
+lua_draw_hook_post main
+
+TEXT
+
+
+#${color1}${font Ubuntu Light:size=10}${time %H:%M:%S}
+${voffset 40}
+${goto 809}${font Ubuntu Light:size=12,weight:bold}${color}[${color ABBCC0}HDD${color}]
+
+#${goto 80} attention level 1: secure
+#${goto 80} primary imperative detect
+
+
+${voffset -43}
+${goto 728}${font Ubuntu Light:size=12,weight:bold}${color} [${color ABBCC0}RAM${color}]${GOTO 644}
+
+${voffset -10}
+
+${GOTO 978}${color}temp:${GOTO 1000}[${color ABBCC0}${execi 4 sensors | grep -A 0 'temp1' | cut -c15-18}0${font Ubuntu Light:size=8,weight:bold}Вє${color}]
+${goto 967}${font Ubuntu Light:size=8,weight:bold}${color}   run: [${color ABBCC0}${running_threads}/${processes}${color}]
+${voffset -112}
+${goto 965}${font Ubuntu Light:size=8,weight:bold}${color}[${color ABBCC0}CPU${color}]
+${voffset 75}
+${goto 965}bat0: ${color}[${color ABBCC0}${battery_percent}%${color}]
+${voffset -26}
+
+${goto 970}${color ABBCC0}top:${top_io name 1}
+
+# этот текст вы можете легко выправить под свою систему
+
+
