@@ -15,10 +15,12 @@ Changelog:
 + v1.1 -- Added options for the starting angle of the rings, and added the "max" variable, to allow for variables that output a numerical value rather than a percentage (29.09.2009)
 + v1.0 -- Original release (28.09.2009)
 ]]
-corner_r=20
+-- corner_r=20
 -- Set the colour and transparency (alpha) of your background.
-bg_colour=0x1c1d23
-bg_alpha=0.2
+bg_colour=0xff000000
+bgrnd_alpha=0.5
+
+-- cairo_pattern_t *pat;
 require 'cairo'
 
 settings_table = {
@@ -27,10 +29,11 @@ settings_table = {
         name='cpu',
         arg='cpu0',
         max=100,
-        bg_colour=0x0ffffff,
-        bg_alpha=0.3,
-        fg_colour=0xFFFFFF,
-        fg_alpha=1,
+        bg_colour=0x1aeeeeee,
+        bg_alpha=0.1,
+        fg_colour=0xf2ffffff,
+        fg_alpha=0.8,
+        fg_gradient=0xffff0000,
         -- bg_colour=0x1eeeeee,
         -- bg_alpha=0.1,
         -- fg_colour=0x0ffffff,
@@ -45,10 +48,11 @@ settings_table = {
         name='memperc',
         arg='',
         max=100,
-        fg_colour=0x1e0e0e0,
-        fg_alpha=0.95,
-        bg_colour=0x0e0e0e0,
-        bg_alpha=0.45,
+        fg_colour=0x1ae0e0e0,
+        fg_alpha=0.75,
+        fg_gradient=0xffff0000,
+        bg_colour=0x40e0e0e0,
+        bg_alpha=0.2,
         -- fg_colour=0x1FFFFFF,
         -- fg_alpha=0.8,
         x=100, y=175,
@@ -61,10 +65,10 @@ settings_table = {
         name='cpu',
         arg='cpu1',
         max=100,
-        fg_colour=0x1e0e0e0,
+        fg_colour=0xff6a839d,
         fg_alpha=0.95,
-        bg_colour=0x0e0e0e0,
-        bg_alpha=0.3,
+        bg_colour=0xe6383838,
+        bg_alpha=0.6,
         -- fg_colour=0x1FFFFFF,
         -- fg_alpha=0.8,
         x=200, y=145,
@@ -77,10 +81,10 @@ settings_table = {
         name='cpu',
         arg='cpu2',
         max=100,
-        fg_colour=0x1e0e0e0,
+        fg_colour=0xff596f85,
         fg_alpha=0.95,
-        bg_colour=0x0e0e0e0,
-        bg_alpha=0.25,
+        bg_colour=0xe6383838,
+        bg_alpha=0.52,
         -- fg_colour=0x1FFFFFF,
         -- fg_alpha=0.8,
         x=200, y=145,
@@ -93,11 +97,11 @@ settings_table = {
         name='cpu',
         arg='cpu3',
         max=100,
-        fg_colour=0x1e0e0e0,
+        fg_colour=0xff48596b,
         fg_alpha=0.95,
-        bg_colour=0x0e0e0e0,
-        bg_alpha=0.2,
-        -- fg_colour=0x1FFFFFF,
+        bg_colour=0xe6383838,
+        bg_alpha=0.4,
+        -- fg_colour=0x1FFFFFF,i
         -- fg_alpha=0.8,
         x=200, y=145,
         radius=65,
@@ -109,10 +113,10 @@ settings_table = {
         name='cpu',
         arg='cpu4',
         max=100,
-        fg_colour=0x1e0e0e0,
-        fg_alpha=0.95,
-        bg_colour=0x0e0e0e0,
+        bg_colour=0xe6383838,
         bg_alpha=0.1,
+        fg_colour=0xff455566,
+        fg_alpha=0.95,
         -- fg_colour=0x1FFFFFF,
         -- fg_alpha=0.8,
         x=200, y=145,
@@ -139,7 +143,7 @@ settings_table = {
         name='fs_used_perc',
         arg='/',
         max=100,
-        bg_colour=0x0e0e0e0,
+        bg_colour=0xd9e0e0e0,
         bg_alpha=0.4,
         fg_colour=0x1FFFFFF,
         fg_alpha=0.8,
@@ -180,10 +184,10 @@ settings_table = {
     {
         name='downspeedf',
         arg='mlan0',
-        max=1000,
+        max=1300,
         bg_colour=0x0e0e0e0,
         bg_alpha=0.1,
-        fg_colour=0x1FFFFFF,
+        fg_colour=0xff1f68a1,
         fg_alpha=0.8,
         x=365, y=330,
         radius=60,
@@ -197,7 +201,7 @@ settings_table = {
         max=100,
         bg_colour=0x0e0e0e0,
         bg_alpha=0.2,
-        fg_colour=0x1FFFFFF,
+        fg_colour=0xffffffff,
         fg_alpha=0.95,
         x=365, y=330,
         radius=40,
@@ -254,6 +258,7 @@ settings_table = {
         bg_colour=0x0FFFFFF,
         bg_alpha=0.2,
         fg_colour=0x1e0e0e0,
+        fg_gradient=0xffff0000,
         fg_alpha=0.95,
         x=100, y=175,
         radius=15,
@@ -288,6 +293,8 @@ function draw_ring(cr,t,pt)
 	
 	local xc,yc,ring_r,ring_w,sa,ea=pt['x'],pt['y'],pt['radius'],pt['thickness'],pt['start_angle'],pt['end_angle']
 	local bgc, bga, fgc, fga=pt['bg_colour'], pt['bg_alpha'], pt['fg_colour'], pt['fg_alpha']
+    local fgG = pt['fg_gradient']
+    local bgG = pt['bg_gradient']
 
 	local angle_0=sa*(2*math.pi/360)-math.pi/2
 	local angle_f=ea*(2*math.pi/360)-math.pi/2
@@ -303,8 +310,20 @@ function draw_ring(cr,t,pt)
 	-- Draw indicator ring
 
 	cairo_arc(cr,xc,yc,ring_r,angle_0,angle_0+t_arc)
-	cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
-	cairo_stroke(cr)		
+    
+    if fgG == nil then
+	    cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
+	    cairo_stroke(cr)		
+    else
+
+        pat = cairo_pattern_create_linear(0.0, 0.0, 0.0, 256.0);
+        cairo_pattern_add_color_stop_rgba(pat, 1, rgb_to_r_g_b(fgc,fga));
+        cairo_pattern_add_color_stop_rgba(pat, 0, rgb_to_r_g_b(fgG,fga));
+        cairo_set_source(cr, pat);
+        cairo_stroke(cr);
+        -- cairo_pattern_destory(pat);
+    end
+
 end
 
 function conky_ring_stats()
@@ -319,23 +338,48 @@ function conky_ring_stats()
 		if value == nil then value = 0 end
 		pct=value/pt['max']
 		
-        drawBg()
+        -- drawBg()
 		draw_ring(cr,pct,pt)
 	end
 
+    local corner_r = 20
 	if conky_window==nil then return end
-	local cs=cairo_xlib_surface_create(conky_window.display,conky_window.drawable,conky_window.visual, conky_window.width,conky_window.height)
+
+    local w=conky_window.width
+    local h=conky_window.height
+
+	local cs=cairo_xlib_surface_create(conky_window.display,conky_window.drawable,conky_window.visual, w, h)
 	
 	local cr=cairo_create(cs)	
+
 	
 	local updates=conky_parse('${updates}')
 	update_num=tonumber(updates)
 	
+
+    cairo_move_to(cr,corner_r,0)
+    cairo_line_to(cr,w-corner_r,0)
+    cairo_curve_to(cr,w,0,w,0,w,corner_r)
+    cairo_line_to(cr,w,h-corner_r)
+    cairo_curve_to(cr,w,h,w,h,w-corner_r,h)
+    cairo_line_to(cr,corner_r,h)
+    cairo_curve_to(cr,0,h,0,h,0,h-corner_r)
+    cairo_line_to(cr,0,corner_r)
+    cairo_curve_to(cr,0,0,0,0,corner_r,0)
+    cairo_close_path(cr)
+
+    cairo_set_source_rgba(cr,rgb_to_r_g_b(bg_colour,bgrnd_alpha))
+    cairo_fill(cr)
+
+
+
 	if update_num>5 then
 		for i in pairs(settings_table) do
 			setup_rings(cr,settings_table[i])
 		end
 	end
+
+
    cairo_surface_destroy(cs)
   cairo_destroy(cr)
 end
@@ -358,6 +402,8 @@ function drawBg()
     cairo_curve_to(cr,0,0,0,0,corner_r,0)
     cairo_close_path(cr)
 
-    cairo_set_source_rgba(cr,rgb_to_r_g_b(bg_colour,bg_alpha))
+    cairo_set_source_rgba(cr,rgb_to_r_g_b(bg_colour,bgrnd_alpha))
     cairo_fill(cr)
+    cairo_surface_destroy(cs)
+
 end
