@@ -2,7 +2,8 @@
 use_xft yes
 xftfont panton:size=14
 xftalpha 0
-update_interval 1
+update_interval 0.5
+update_interval_on_battery 1
 total_run_times 0
 
 cpu_avg_samples 1
