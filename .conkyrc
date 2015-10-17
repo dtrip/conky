@@ -5,6 +5,9 @@ xftalpha 0
 update_interval 1
 total_run_times 0
 
+cpu_avg_samples 1
+diskio_avg_samples 1
+net_avg_samples 1
 
 background 000000
 maximum_width 400
@@ -55,24 +58,28 @@ lua_draw_hook_pre ring_stats
 TEXT
 ${font panton:size=14,weight:normal}${color3}${nodename} ${hr}
 ${color1}${alignr}$sysname $kernel
-${voffset 20}${alignr}${cpugraph 20,320 324D23 ffffff 100 -t -l}
+${voffset 20}${alignr}${cpugraph 20,320 ffffff 791120 100 -t -l}
 ${voffset -23}${goto 110}${font panton:size=12,weight:normal}${cpu cpu0}%${goto 0}
-${voffset -1}${alignr}${memgraph 20,320 324D23 ffffff}
+${voffset -1}${alignr}${memgraph 20,320 ffffff 791120 8000 -t -l}
 ${voffset -20}${goto 110}${font panton:size=12,weight:normal}$memperc%
 ${voffset -3}${font panton:size=12,weight:normal}${goto 110}${fs_used_perc /}%${goto 0}
 ${voffset -7}${font panton:size=10,weight:normal}${goto 110}${battery BAT0}${font panton:size=12,weight:normal}
 
 
-${voffset 48}${downspeedgraph mlan0 15,305 324D23 fffff 100 -l}
-${voffset -25}${goto 270}${downspeed mlan0}
-${voffset 3}${upspeedgraph mlan0 12,305 4B1B0C ffffff 100 -l}
-${voffset -25}${goto 270}${upspeed mlan0}${font panton:size=14,weight:normal}
 
-${color3}Local   : ${color1}${goto 140}${addr mlan0}
-${color3}Gateway : ${color1}${goto 140}${gw_ip}
-${color3}Public  : ${color1}${goto 140}${execi 120 wget c.nrx.co -O - -q}
+${voffset 20}${downspeedgraph mlan0 60,335 0a2236 1f68a1 105 -l}
+${voffset -80}${upspeedgraph mlan0 60,335 4B1B0C ffffff 100 -l}
 
+# ${voffset 48}${downspeedgraph mlan0 15,305 324D23 fffff 100 -l}
+# ${voffset -25}${goto 270}${downspeed mlan0}
+# ${voffset 3}${upspeedgraph mlan0 12,305 4B1B0C ffffff 100 -l}
+# ${voffset -25}${goto 270}${upspeed mlan0}${font panton:size=14,weight:normal}
 
+${voffset -20}${color3}Down: ${color1}${goto 140}${downspeed mlan0}
+${color3}Up: ${color1}${goto 140}${upspeed mlan0}
+${color3}Local: ${color1}${goto 140}${addr mlan0}
+${color3}Gateway: ${color1}${goto 140}${gw_ip}
+${color3}Public: ${color1}${goto 140}${execi 120 wget c.nrx.co -O - -q}
 ${voffset 40}${color3}CPU${hr}
 ${voffset -30}${alignr}${cpu cpu0}%${color1}
 ${voffset 10}${top name 1}${alignr}${top cpu 1}%
@@ -89,3 +96,6 @@ ${top_mem name 4}${alignr}${top_mem mem 4}%
 
 ${color3}DISK${hr}${color white}
 Free: ${fs_free /}${alignr}Used: ${fs_used /}
+
+${color3}Battery${hr}${color1}
+${voffset 10}Time left${alignr}${battery_time BAT0}
