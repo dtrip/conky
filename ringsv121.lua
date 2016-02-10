@@ -17,8 +17,8 @@ Changelog:
 ]]
 -- corner_r=20
 -- Set the colour and transparency (alpha) of your background.
-bg_colour=0xff000000
-bgrnd_alpha=0.5
+bg_colour='00000000'
+bgrnd_alpha=0.8
 
 -- cairo_pattern_t *pat;
 require 'cairo'
@@ -176,7 +176,7 @@ settings_table = {
     -- },
     {
         name='downspeedf',
-        arg='mlan0',
+        arg='wlan0',
         max=1300,
         bg_colour=0x0e0e0e0,
         bg_alpha=0.1,
@@ -190,7 +190,7 @@ settings_table = {
     },
     {
         name='upspeedf',
-        arg='mlan0',
+        arg='wlan0',
         max=100,
         bg_colour=0x0e0e0e0,
         bg_alpha=0.2,

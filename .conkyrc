@@ -1,62 +1,46 @@
-# Dtrip .conkyrc junk 
-use_xft yes
-xftfont panton:size=14
-xftalpha 0
-update_interval 0.5
-update_interval_on_battery 1
-total_run_times 0
+conky.config = {
+use_xft=true,
+xftalpha=0,
+update_interval=0.5,
+update_interval_on_battery=1,
+total_run_times=0,
 
-cpu_avg_samples 1
-diskio_avg_samples 1
-net_avg_samples 1
+cpu_avg_samples=1,
+diskio_avg_samples=1,
+net_avg_samples=1,
 
-background 000000
-maximum_width 400
-minimum_size 400 300
-alignment top_left
+background=false,
 
-# short_units yes
-# show_graph_scale yes
-# show_graph_range yes
+minimum_width=400,
+alignment='top_left',
+gap_x=60,
+gap_y=100,
+own_window=true,
+own_window_type='override',
+own_window_transparent=true,
+own_window_hints='undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_argb_visual=true,
+own_window_argb_value=0,
 
-# minimum_size_280
-gap_x 60
-gap_y 100
-own_window yes
-own_window_type desktop
-own_window_transparent yes
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-own_window_colour cccccc
-own_window_argb_visual yes
-own_window_argb_value 200
+double_buffer=true,
+draw_shades=true,
 
-double_buffer yes
-draw_shades no
+draw_borders=false,
+draw_graph_borders=false,
 
-draw_borders no
-draw_graph_borders no
-stippled_borders yes
+border_inner_margin=25,
 
-border_inner_margin 25
+color1='#ffffff',
+color2='#d7ff00',
+color3='#00ff00',
 
-#colors
+text_buffer_size=512,
 
-#graph fill color
-#color1 f0e0ad
-color1 ffffff
-color2 d7ff00
-color3 00ff00
+lua_load='~/conky/ringsv121.lua',
+lua_draw_hook_pre='ring_stats'
+}
 
-text_buffer_size 512
-
-lua_load ~/conky/ringsv121.lua
-lua_draw_hook_pre ring_stats
-# lua_load ~/conky/bg.lua
-# lua_draw_hook_pre draw_bg
-
-
-
-TEXT
+conky.text = [[
 ${font panton:size=14,weight:normal}${color3}${nodename} ${hr}
 ${color1}${alignr}$sysname $kernel
 ${voffset 20}${alignr}${cpugraph 20,320 ffffff 791120 100 -t -l}
@@ -68,19 +52,14 @@ ${voffset -7}${font panton:size=10,weight:normal}${goto 110}${battery BAT0}${fon
 
 
 
-${voffset 20}${downspeedgraph mlan0 60,335 0a2236 1f68a1 105 -l}
-${voffset -80}${upspeedgraph mlan0 60,335 4B1B0C ffffff 100 -l}
+${voffset 20}${downspeedgraph wlan0 60,335 0a2236 1f68a1 105 -l}
+${voffset -80}${upspeedgraph wlan0 60,335 4B1B0C ffffff 100 -l}
 
-# ${voffset 48}${downspeedgraph mlan0 15,305 324D23 fffff 100 -l}
-# ${voffset -25}${goto 270}${downspeed mlan0}
-# ${voffset 3}${upspeedgraph mlan0 12,305 4B1B0C ffffff 100 -l}
-# ${voffset -25}${goto 270}${upspeed mlan0}${font panton:size=14,weight:normal}
-
-${voffset -20}${color3}Down: ${color1}${goto 140}${downspeed mlan0}
-${color3}Up: ${color1}${goto 140}${upspeed mlan0}
-${color3}Local: ${color1}${goto 140}${addr mlan0}
+${voffset -20}${color3}Down: ${color1}${goto 140}${downspeed wlan0}
+${color3}Up: ${color1}${goto 140}${upspeed wlan0}
+${color3}Local: ${color1}${goto 140}${addr wlan0}
 ${color3}Gateway: ${color1}${goto 140}${gw_ip}
-${color3}Public: ${color1}${goto 140}${execi 120 wget c.nrx.co -O - -q}
+${color3}Public: ${color1}${goto 140}${execi 120 wget ip.nrx.co:81 -O - -q}
 ${voffset 40}${color3}CPU${hr}
 ${voffset -30}${alignr}${cpu cpu0}%${color1}
 ${voffset 10}${top name 1}${alignr}${top cpu 1}%
@@ -100,3 +79,4 @@ Free: ${fs_free /}${alignr}Used: ${fs_used /}
 
 ${color3}Battery${hr}${color1}
 ${voffset 10}Time left${alignr}${battery_time BAT0}
+]]
