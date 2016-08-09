@@ -246,7 +246,7 @@ settings_table = {
     -- },
        {
         name='battery_percent',
-        arg='BAT0',
+        arg='BAT1',
         max=100,
         bg_colour=0x0FFFFFF,
         bg_alpha=0.05,
@@ -274,7 +274,7 @@ settings_table = {
     -- },
 }
 
-require 'cairo'
+-- require 'cairo'
 
 function rgb_to_r_g_b(colour,alpha)
 	return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha

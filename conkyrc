@@ -1,78 +1,81 @@
-# Conky settings #
-background no
-update_interval 1
-use_xft yes
+conky.config = {
+-- Conky settings #
+	background = false,
+	update_interval = 1,
+	use_xft = true,
 
-cpu_avg_samples 2
-net_avg_samples 2
+	cpu_avg_samples = 2,
+	net_avg_samples = 2,
 
-override_utf8_locale yes
+	override_utf8_locale = true,
 
-double_buffer yes
-no_buffers yes
+	double_buffer = true,
+	no_buffers = true,
 
-text_buffer_size 2048
-#imlib_cache_size 0
+	text_buffer_size = 2048,
+--imlib_cache_size 0
 
-temperature_unit celsius
+	temperature_unit = 'celsius',
 
-# Window specifications #
-# own_window_class Conky
-own_window yes
-own_window_type desktop
-own_window_transparent yes
-own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
-own_window_argb_visual yes
-own_window_argb_value 0
-
-
-border_inner_margin 0
-border_outer_margin 0
-
-minimum_size 350 550
-maximum_width 550
-
-alignment tl
-gap_x 1400
-gap_y 175
-
-# Graphics settings #
-draw_shades no
-draw_outline no
-draw_borders no
-draw_graph_borders no
-
-# Text settings #
-use_xft yes
-override_utf8_locale yes
-xftfont Pf Tempesta Five:bold:size=6
-xftalpha 0.8
-uppercase no
-
-temperature_unit celsius
-
-default_color FFFFFF
-color0 e0e0e0
-color1 FFFFFF
-color2 FFFFFF
-color3 FFFFFF 
-color4 e0e0e0
+-- Window specifications #
+-- own_window_class Conky
+	own_window = true,
+	own_window_type = 'desktop',
+	own_window_transparent = true,
+	own_window_hints = 'undecorate,sticky,skip_taskbar,skip_pager,below',
+	own_window_argb_visual = true,
+	own_window_argb_value = 0,
 
 
+	border_inner_margin = 0,
+	border_outer_margin = 0,
 
-# default_color 333333
-# color0 1994D1
-# color1 333333
-# color2 1994D1
-# color3 1994D1 
-# color4 918787
+	minimum_width = 350, minimum_height = 550,
+	maximum_width = 550,
 
-# Lua Load  ##${voffset 750}
-lua_load ~/conky/rings-v1.2.1.lua
-lua_draw_hook_pre ring_stats
+	alignment = 'top_left',
+	gap_x = 1400,
+	gap_y = 175,
+
+-- Graphics settings #
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	override_utf8_locale = true,
+	font = 'Pf Tempesta Five:bold:size=6',
+	xftalpha = 0.8,
+	uppercase = false,
+
+	temperature_unit = 'celsius',
+
+	default_color = '#FFFFFF',
+	color0 = '#e0e0e0',
+	color1 = '#FFFFFF',
+	color2 = '#FFFFFF',
+	color3 = '#FFFFFF',
+	color4 = '#e0e0e0',
 
 
-TEXT
+
+-- default_color 333333
+-- color0 1994D1
+-- color1 333333
+-- color2 1994D1
+-- color3 1994D1 
+-- color4 918787
+
+-- Lua Load  ##${voffset 750}
+	lua_load = '~/conky/rings-v1.2.1.lua',
+	lua_draw_hook_pre = 'ring_stats',
+
+
+};
+
+conky.text = [[
 ${font Pf Tempesta Five:bold:size=6}${voffset 32}${goto 96}${color4}CPU ${alignr 145}${color1}${cpu}% / ${color1}${acpitemp}°C
 ${font Pf Tempesta Five:bold:size=6}${goto 79}${color4}RAM ${alignr 145}${color1}${memperc}% / ${color1}${memmax}
 ${font Pf Tempesta Five:bold:size=6}${goto 63}${color4}SWAP${alignr 145}${color1}${swapperc}% / ${color1}${swapmax}
@@ -114,3 +117,4 @@ ${goto 130}${font Vandiana Platin:size=8,weight:normal}${color1}${tcp_portmon 1 
 
 
 
+]];

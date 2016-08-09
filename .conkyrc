@@ -1,6 +1,6 @@
 conky.config = {
 use_xft=true,
-xftalpha=0,
+xftalpha=1,
 update_interval=0.5,
 update_interval_on_battery=1,
 total_run_times=0,
@@ -9,16 +9,16 @@ cpu_avg_samples=1,
 diskio_avg_samples=1,
 net_avg_samples=1,
 
-background=false,
+background=true,
 
 minimum_width=400,
 alignment='top_left',
-gap_x=60,
-gap_y=100,
+gap_x=-1320,
+gap_y=40,
 own_window=true,
 own_window_type='override',
 own_window_transparent=true,
-own_window_hints='undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_hints='above',
 own_window_argb_visual=true,
 own_window_argb_value=0,
 
@@ -41,26 +41,26 @@ lua_draw_hook_pre='ring_stats'
 }
 
 conky.text = [[
-${font panton:size=14,weight:normal}${color3}${nodename} ${hr}
+${font Panton:size=12}${color3}${nodename} ${hr}
 ${color1}${alignr}$sysname $kernel
 ${voffset 20}${alignr}${cpugraph 20,320 ffffff 791120 100 -t -l}
-${voffset -23}${goto 110}${font panton:size=12,weight:normal}${cpu cpu0}%${goto 0}
+${voffset -23}${goto 110}${font Panton:size=12}${cpu cpu0}%${goto 0}
 ${voffset -1}${alignr}${memgraph 20,320 ffffff 791120 8000 -t -l}
-${voffset -20}${goto 110}${font panton:size=12,weight:normal}$memperc%
-${voffset -3}${font panton:size=12,weight:normal}${goto 110}${fs_used_perc /}%${goto 0}
-${voffset -7}${font panton:size=10,weight:normal}${goto 110}${battery BAT0}${font panton:size=12,weight:normal}
+${voffset -20}${goto 110}${font Panton:size=12}$memperc%
+${voffset -3}${font Panton:size=12}${goto 110}${fs_used_perc /}%${goto 0}
+${voffset -7}${font Panton:size=8}${goto 110}${battery BAT1}${font Panton:size=10}
 
 
 
 ${voffset 20}${downspeedgraph wlan0 60,335 0a2236 1f68a1 105 -l}
 ${voffset -80}${upspeedgraph wlan0 60,335 4B1B0C ffffff 100 -l}
 
-${voffset -20}${color3}Down: ${color1}${goto 140}${downspeed wlan0}
+${voffset 0}${color3}Down: ${color1}${goto 140}${downspeed wlan0}
 ${color3}Up: ${color1}${goto 140}${upspeed wlan0}
 ${color3}Local: ${color1}${goto 140}${addr wlan0}
 ${color3}Gateway: ${color1}${goto 140}${gw_ip}
 ${color3}Public: ${color1}${goto 140}${execi 120 wget ip.nrx.co:81 -O - -q}
-${voffset 40}${color3}CPU${hr}
+${voffset 10}${color3}CPU${hr}
 ${voffset -30}${alignr}${cpu cpu0}%${color1}
 ${voffset 10}${top name 1}${alignr}${top cpu 1}%
 ${top name 2}${alignr}${top cpu 2}%
@@ -73,10 +73,8 @@ ${voffset 10}${top_mem name 1}${alignr}${top_mem mem 1}%
 ${top_mem name 2}${alignr}${top_mem mem 2}%
 ${top_mem name 3}${alignr}${top_mem mem 3}%
 ${top_mem name 4}${alignr}${top_mem mem 4}%
-
 ${color3}DISK${hr}${color white}
 Free: ${fs_free /}${alignr}Used: ${fs_used /}
-
 ${color3}Battery${hr}${color1}
-${voffset 10}Time left${alignr}${battery_time BAT0}
+${voffset 10}Time left${alignr}${battery_time BAT1}
 ]]
