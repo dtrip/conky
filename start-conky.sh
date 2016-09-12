@@ -1,9 +1,10 @@
 #!/bin/bash
 
 pkill conky &
-sleep 3
+sleep 1
 
 DIR=$(dirname $(readlink -e $0))
+HDMIEV=/sys/class/drm/card0-HDMI-A-1/status
 
 # conky
 # conky -c /home/dtrip/conk
@@ -11,7 +12,11 @@ DIR=$(dirname $(readlink -e $0))
 sleep 1 #time (in s) for the DE to start; use ~20 for Gnome or KDE, less for Xfce/LXDE etc
 # conky -c $DIR/rings & # the main conky with rings
 
-conky -c ~/conky/.conkyrc
+if [ $(cat $HDMIEV | grep -Ec "^connected") -eq 1 ]; then
+    conky -c ~/conky/.conkyrc-d -x -1300 -o yes
+else
+    conky -c ~/conky/.conkyrc
+fi
 
 
 # conky -c $DIR/conkyrc1
